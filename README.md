@@ -1,6 +1,6 @@
 # Homebridge-nut
 
-NUT (Network UPS Tools) Plugin for Homebridge(https://github.com/nfarina/homebridge)
+NUT (Network UPS Tools) Plugin for [Homebridge] (https://github.com/nfarina/homebridge)
 Leverages [node-nut](https://github.com/skarcha/node-nut)
 
 This plugin allows you to monitor your UPS's with HomeKit and Siri via a NUT Client.
@@ -12,12 +12,12 @@ This plugin allows you to monitor your UPS's with HomeKit and Siri via a NUT Cli
 4. Ensure you have a NUT client/server running somewhere. For assistance - http://wynandbooysen.com/raspberry-pi-ups-server-using-nut.html.
 
 This plugin is a Platform and will create a ContactSensor element along with a BatteryService for each USB returned from your NUT Client.
-ContactSensorState will show CLOSED for Voltage > 0.0.
-StatusActive will be true if UPS Load is > 0.
-StatusFault will be true is NUT is not reachable.
-BatteryLevel will show the BatteryCharge percent.
-ChargingState will show Charging, Not Charging (Online and 100%), or Not Chargable (On Battery).
-StatusLowBattery will be true if low_batt_threshold is breached. This can potentially notify you prior to your Nut shutting down its server(s).
+* ContactSensorState will show CLOSED for Voltage > 0.0.
+* StatusActive will be true if UPS Load is > 0.
+* StatusFault will be true is NUT is not reachable.
+* BatteryLevel will show the BatteryCharge percent.
+* ChargingState will show Charging, Not Charging (Online and 100%), or Not Chargable (On Battery).
+* StatusLowBattery will be true if low_batt_threshold is breached. This can potentially notify you prior to your Nut shutting down its server(s).
 	
 ## Configuration
 Example config.json:
