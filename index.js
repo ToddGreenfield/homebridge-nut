@@ -116,8 +116,8 @@ function NutAccessory(platform, accessory, accessoryFriendly, accessoryVars) {
 	this.lowBattThreshold = this.platform.lowBattThreshold;	
 	if (this.nutPolling > 0) {
 		var that = this;
-		that.log('Nut Service Polling begin...');
 		setTimeout(function() {
+			that.log('Nut Service Polling begin for %s...', that.name);
 			that.servicePolling();
 		}, this.nutPolling);
 	};
@@ -161,7 +161,7 @@ NutAccessory.prototype = {
 				if (!err) {
 					that.service.setCharacteristic(Characteristic.StatusFault,0);
 					that.serviceBatt.setCharacteristic(Characteristic.BatteryLevel,parseFloat(upsInfo["battery.charge"]));
-					if (upsInfo["battery.charge"] < that.lowBattThreshold) {
+					if (parseInt(upsInfo["battery.charge"]) < parseInt(that.lowBattThreshold)) {
 						that.serviceBatt.setCharacteristic(Characteristic.StatusLowBattery,true);
 					} else {
 						that.serviceBatt.setCharacteristic(Characteristic.StatusLowBattery,false);
@@ -173,7 +173,7 @@ NutAccessory.prototype = {
 					} else {
 						that.serviceBatt.setCharacteristic(Characteristic.ChargingState,0);
 					}
-					if (upsInfo["ups.load"] > 0) {
+					if (parseInt(upsInfo["ups.load"]) > 0) {
 						that.service.setCharacteristic(Characteristic.StatusActive,true);
 					} else {
 						that.service.setCharacteristic(Characteristic.StatusActive,false);
@@ -227,7 +227,7 @@ NutAccessory.prototype = {
 		this.serviceBatt.setCharacteristic(Characteristic.BatteryLevel, this.accVars["battery.charge"])
 			.setCharacteristic(Characteristic.Name, this.name)
 			.setCharacteristic(Characteristic.ChargingState, 0)
-			.setCharacteristic(Characteristic.StatusLowBattery, ((this.accVars["battery.charge"] < this.lowBattThreshold) ? true : false));
+			.setCharacteristic(Characteristic.StatusLowBattery, false);
 		services.push(this.serviceBatt);
         
 		return services;
