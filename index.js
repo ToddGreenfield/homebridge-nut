@@ -62,7 +62,7 @@ NutPlatform.prototype = {
 						foundAccessories.push(accessory);
 						callback(foundAccessories);
 					} else {
-						that.log("Nut Error: %s", err);
+						that.log.error("Nut Error: %s", err);
 					}
 				});
 			}
@@ -86,11 +86,11 @@ NutPlatform.prototype = {
 	eventClose: function() {
 		var that = this;
 		connected = false;
-		this.log("Nut eventDisconnect occured.");
+		this.log.warn("Nut eventDisconnect occured.");
 	},
 
 	eventError: function(error) {
-		this.log("Nut eventError received - %s.", error);
+		this.log.error("Nut eventError received - %s.", error);
 	},
 	
 	getInfo: function(upsName, callback) {
@@ -138,14 +138,14 @@ NutAccessory.prototype = {
 			that.getVars(function(callback) {
 			}.bind(this));
 		} else {
-			this.log('Nut NOT connected, attempting 1st reconnection attempt...');
+			this.log.warn('Nut NOT connected, attempting 1st reconnection attempt...');
 			pNut.start();
 			setTimeout(function() {
 				if (connected) {
 					that.getVars(function (callback) {
 					}.bind(this));
 				} else {
-					that.log('Nut unable to reconnect!');
+					that.log.error('Nut unable to reconnect!');
 					that.service.setCharacteristic(Characteristic.StatusFault,1);
 				}
 			}, this.platform.nutListTimeout+1000); //  <<<--- May need to be adjusted- Timing issue for some? 
@@ -184,11 +184,11 @@ NutAccessory.prototype = {
 						that.service.setCharacteristic(Characteristic.ContactSensorState,false);
 					}
 				} else {
-					that.log("Nut Error: %s", err);
+					that.log.error("Nut Error: %s", err);
 				}
 			}.bind(this));
 		} else {
-			this.log('Nut request failed. Not connected.');
+			this.log.error('Nut request failed. Not connected.');
 			that.service.setCharacteristic(Characteristic.StatusFault,1);
 		}
 		callback();	
