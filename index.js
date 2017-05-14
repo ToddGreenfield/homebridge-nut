@@ -63,6 +63,7 @@ NutPlatform.prototype = {
 						callback(foundAccessories);
 					} else {
 						that.log.error("Nut Error: %s", err);
+						callback(foundAccessories);
 					}
 				});
 			}
@@ -74,8 +75,13 @@ NutPlatform.prototype = {
 		if (!that.initialized) {
 			connected = true;
 			this.log("Nut eventReady received. Initializing and getting list of Nut accessories.");
-			pNut.GetUPSList(function(upslist) {
-				that.nutAccessories = upslist;
+			pNut.GetUPSList(function(upslist, err) {
+				if (err) {
+					that.log('Nut ERROR initializing: ' + err);
+				}
+				else {
+					that.nutAccessories = upslist;
+				}
 			});
 		} else {
 			connected = true;
@@ -96,11 +102,15 @@ NutPlatform.prototype = {
 	getInfo: function(upsName, callback) {
 		var that = this;
 		if (connected) {
-			pNut.GetUPSVars(upsName, function(upsvars) {
-				callback(null, upsvars);
+			pNut.GetUPSVars(upsName, function(upsvars, err) {
+				if (err) {
+					callback("ERROR getting UPSVars: " + err, null);
+				} else {
+					callback(null, upsvars);
+				}
 			});
 		} else {
-			callback("Nut Error: not connected to Nut", null);
+			callback("ERROR not connected to Nut", null);
 		}
 	}
 }
@@ -185,6 +195,7 @@ NutAccessory.prototype = {
 					}
 				} else {
 					that.log.error("Nut Error: %s", err);
+					that.service.setCharacteristic(Characteristic.StatusFault,1);
 				}
 			}.bind(this));
 		} else {

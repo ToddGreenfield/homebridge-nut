@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/ToddGreenfield/homebridge-nut#readme",
   "dependencies": {
-    "node-nut": "^0.1.0",
+    "node-nut": "^1.0.0",
     "underscore": "^1.8.3"
   }
 }
