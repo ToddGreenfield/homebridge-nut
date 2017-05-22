@@ -41,7 +41,7 @@ Example config.json:
 Field           		| Description
 ------------------------|------------
 **platform**   			| Required - Must always be "Nut".
-**name**        		| Optional - Name override for the platform logging. Default is Nut. 
+**name**        		| Required - Name for platform logging. 
 **host** 			 	| Optional - Internal ip or hostname of Nut Client. Default is localhost.
 **port**				| Optional - Port which Nut Client is listening. Default is 3493.
 **search_time_delay**	| Optional - Delay on startup to list Nut devices. Defaults to 1 second.

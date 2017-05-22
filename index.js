@@ -6,7 +6,7 @@
 // "platforms": [
 //     {
 //         "platform": "Nut",					// required
-//         "name": "Nut",						// Optional - defaults to Nut - Only used for platform logging tags.
+//         "name": "Nut",						// required - Used for platform logging tags.
 //         "host": "localhost",					// Optional - defaults to localhost
 //         "port": "3493",						// Optional - defaults to 3493
 //         "search_time_delay": "1",			// Optional - defaults to 1 second. Initial search time delay in seconds.
@@ -25,7 +25,7 @@ function NutPlatform(log, config){
 	this.config = config;
 	this.host = config["host"] || 'localhost';
 	this.port = config["port"] || '3493';
-	this.name = config["name"] || 'Nut';
+	this.name = config["name"];
 	this.nutListTimeout = config["search_time_delay"] || '1';
 	this.nutListTimeout *= 1000;
 	this.nutPolling = config["polling"] || '0';
