@@ -229,8 +229,8 @@ NutAccessory.prototype = {
 		var serviceInfo = new Service.AccessoryInformation();
 
   		serviceInfo.setCharacteristic(Characteristic.Manufacturer, this.accVars["device.mfr"])
-            .setCharacteristic(Characteristic.Name, this.name)
-			.setCharacteristic(Characteristic.SerialNumber, this.accVars["ups.serial"])
+            		.setCharacteristic(Characteristic.Name, this.name)
+			.setCharacteristic(Characteristic.SerialNumber, this.accVars["device.serial"]||'noserial' )
 			.setCharacteristic(Characteristic.Model, this.accVars["device.model"]);
         services.push(serviceInfo);
 
