@@ -226,7 +226,7 @@ NutAccessory.prototype = {
 		this.service.addCharacteristic(Characteristic.StatusFault); // Used if unable to connect to Nut Server
 		services.push(this.service);
 
-	    	if (parseInt(upsInfo["ups.temperature"]) > 0) {
+	    	if (parseInt(this.accVars["ups.temperature"]) > 0) {
 					var serviceTemp = new Service.TemperatureSensor();
 
                 serviceTemp.setCharacteristic(Characteristic.CurrentTemperature, this.accVars["ups.temperature"])
