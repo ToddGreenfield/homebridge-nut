@@ -193,6 +193,10 @@ NutAccessory.prototype = {
 					} else {
 						that.service.setCharacteristic(Characteristic.ContactSensorState,false);
 					}
+					if (parseInt(this.accVars["ups.temperature"]) > 0) {
+						that.service.setCharacteristic(Characteristic.CurrentTemperature, (parseInt(this.accVars["ups.temperature"])));
+					} else {
+					}
 				} else {
 					that.log.error("Nut Error: %s", err);
 					that.service.setCharacteristic(Characteristic.StatusFault,1);
@@ -224,16 +228,8 @@ NutAccessory.prototype = {
 			.on('get', this.getCheck.bind(this));;
 		this.service.addCharacteristic(Characteristic.StatusActive); // Has load (being used)
 		this.service.addCharacteristic(Characteristic.StatusFault); // Used if unable to connect to Nut Server
+	    	this.service.addCharacteristic(Characteristic.CurrentTemperature);
 		services.push(this.service);
-
-	    	if (parseInt(this.accVars["ups.temperature"]) > 0) {
-					var serviceTemp = new Service.TemperatureSensor();
-
-                serviceTemp.setCharacteristic(Characteristic.CurrentTemperature, (parseInt(this.accVars["ups.temperature"])));
-
-                services.push(serviceTemp);	
-			
-					}else {};
                 
 	    
 		var serviceInfo = new Service.AccessoryInformation();
