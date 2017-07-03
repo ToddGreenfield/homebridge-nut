@@ -1,6 +1,6 @@
 {
   "name": "homebridge-nut",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Homebridge plugin for NUT (Network UPS Tools) Client",
   "main": "index.js",
   "scripts": {
