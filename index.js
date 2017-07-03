@@ -229,7 +229,7 @@ NutAccessory.prototype = {
 	    	if (parseInt(this.accVars["ups.temperature"]) > 0) {
 					var serviceTemp = new Service.TemperatureSensor();
 
-                serviceTemp.setCharacteristic(Characteristic.CurrentTemperature, (parseInt(this.accVars["ups.temperature"]))
+                serviceTemp.setCharacteristic(Characteristic.CurrentTemperature, (parseInt(this.accVars["ups.temperature"])));
 
                 services.push(serviceTemp);	
 			
