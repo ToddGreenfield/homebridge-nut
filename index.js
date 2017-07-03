@@ -238,10 +238,10 @@ NutAccessory.prototype = {
 	    
 		var serviceInfo = new Service.AccessoryInformation();
 
-  		serviceInfo.setCharacteristic(Characteristic.Manufacturer, this.accVars["device.mfr"]) 		
+  		serviceInfo.setCharacteristic(Characteristic.Manufacturer, this.accVars["device.mfr"] || 'no manufacturer') 		
 			.setCharacteristic(Characteristic.Name, this.name)
-			.setCharacteristic(Characteristic.SerialNumber, this.accVars["ups.serial"])
-			.setCharacteristic(Characteristic.Model, this.accVars["device.model"]);
+			.setCharacteristic(Characteristic.SerialNumber, this.accVars["ups.serial"] || 'noserial')
+			.setCharacteristic(Characteristic.Model, this.accVars["device.model"] || 'no model');
         services.push(serviceInfo);
 
 		this.serviceBatt = new Service.BatteryService();
