@@ -223,22 +223,21 @@ NutAccessory.prototype = {
         var that = this;
         var services = []
 
-        this.service = new Service.ContactSensor(this.name);
+    this.service = new Service.ContactSensor(this.name);
 		this.service.getCharacteristic(Characteristic.ContactSensorState) // Has input voltage (power)
 			.on('get', this.getCheck.bind(this));;
 		this.service.addCharacteristic(Characteristic.StatusActive); // Has load (being used)
 		this.service.addCharacteristic(Characteristic.StatusFault); // Used if unable to connect to Nut Server
-	    	this.service.addCharacteristic(Characteristic.CurrentTemperature);
+	  this.service.addCharacteristic(Characteristic.CurrentTemperature);
 		services.push(this.service);
                 
 	    
 		var serviceInfo = new Service.AccessoryInformation();
-
   		serviceInfo.setCharacteristic(Characteristic.Manufacturer, this.accVars["device.mfr"] || 'no manufacturer') 		
 			.setCharacteristic(Characteristic.Name, this.name)
-			.setCharacteristic(Characteristic.SerialNumber, this.accVars["ups.serial"] || 'noserial')
+			.setCharacteristic(Characteristic.SerialNumber, this.accVars["ups.serial"] || 'no serial')
 			.setCharacteristic(Characteristic.Model, this.accVars["device.model"] || 'no model');
-        services.push(serviceInfo);
+    services.push(serviceInfo);
 
 		this.serviceBatt = new Service.BatteryService();
 		this.serviceBatt.setCharacteristic(Characteristic.BatteryLevel, this.accVars["battery.charge"])
