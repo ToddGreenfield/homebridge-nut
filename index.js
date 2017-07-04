@@ -193,6 +193,10 @@ NutAccessory.prototype = {
 					} else {
 						that.service.setCharacteristic(Characteristic.ContactSensorState,false);
 					}
+					if (parseInt(this.accVars["ups.temperature"]) > 0) {
+						that.service.setCharacteristic(Characteristic.CurrentTemperature, (parseInt(this.accVars["ups.temperature"])));
+					} else {
+					}
 				} else {
 					that.log.error("Nut Error: %s", err);
 					that.service.setCharacteristic(Characteristic.StatusFault,1);
@@ -219,29 +223,21 @@ NutAccessory.prototype = {
         var that = this;
         var services = []
 
-        this.service = new Service.ContactSensor(this.name);
+    this.service = new Service.ContactSensor(this.name);
 		this.service.getCharacteristic(Characteristic.ContactSensorState) // Has input voltage (power)
 			.on('get', this.getCheck.bind(this));;
 		this.service.addCharacteristic(Characteristic.StatusActive); // Has load (being used)
 		this.service.addCharacteristic(Characteristic.StatusFault); // Used if unable to connect to Nut Server
+	  this.service.addCharacteristic(Characteristic.CurrentTemperature);
 		services.push(this.service);
-
-	    	
-                var serviceTemp = new Service.TemperatureSensor();
-
-                serviceTemp.setCharacteristic(Characteristic.CurrentTemperature, this.accVars["ups.temperature"])
-
-                services.push(serviceTemp);
+                
 	    
 		var serviceInfo = new Service.AccessoryInformation();
-
-  		serviceInfo.setCharacteristic(Characteristic.Manufacturer, this.accVars["device.mfr"])
-            		.setCharacteristic(Characteristic.Name, this.name)
-			.setCharacteristic(Characteristic.SerialNumber, this.accVars["device.serial"]||'noserial' )
-
-
-			.setCharacteristic(Characteristic.Model, this.accVars["device.model"]);
-        services.push(serviceInfo);
+  		serviceInfo.setCharacteristic(Characteristic.Manufacturer, this.accVars["device.mfr"] || 'no manufacturer') 		
+			.setCharacteristic(Characteristic.Name, this.name)
+			.setCharacteristic(Characteristic.SerialNumber, this.accVars["ups.serial"] || 'no serial')
+			.setCharacteristic(Characteristic.Model, this.accVars["device.model"] || 'no model');
+    services.push(serviceInfo);
 
 		this.serviceBatt = new Service.BatteryService();
 		this.serviceBatt.setCharacteristic(Characteristic.BatteryLevel, this.accVars["battery.charge"])
