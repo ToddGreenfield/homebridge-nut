@@ -192,6 +192,10 @@ NutAccessory.prototype = {
 						that.service.setCharacteristic(Characteristic.ContactSensorState,true);
 					} else {
 						that.service.setCharacteristic(Characteristic.ContactSensorState,false);
+						that.service.setCharacteristic(EnterpriseTypes.InputVoltageAC, (this.accVars["input.voltage"]));
+						that.service.setCharacteristic(EnterpriseTypes.OutputVoltageAC, (this.accVars["output.voltage"]));
+						that.service.setCharacteristic(EnterpriseTypes.BatteryVoltageDC, (this.accVars["battery.voltage"]));						
+						
 					}
 					if (parseInt(this.accVars["ups.temperature"]) > 0) {
 						that.service.setCharacteristic(Characteristic.CurrentTemperature, (parseInt(this.accVars["ups.temperature"])));
@@ -228,7 +232,10 @@ NutAccessory.prototype = {
 			.on('get', this.getCheck.bind(this));;
 		this.service.addCharacteristic(Characteristic.StatusActive); // Has load (being used)
 		this.service.addCharacteristic(Characteristic.StatusFault); // Used if unable to connect to Nut Server
-	  this.service.addCharacteristic(Characteristic.CurrentTemperature);
+	  	this.service.addCharacteristic(Characteristic.CurrentTemperature);
+	    	this.service.addCharacteristic(EnterpriseTypes.InputVoltageAC);
+	    	this.service.addCharacteristic(EnterpriseTypes.OutputVoltageAC);
+	    	this.service.addCharacteristic(EnterpriseTypes.BatteryVoltageDC);
 		services.push(this.service);
                 
 	    
@@ -253,11 +260,12 @@ NutAccessory.prototype = {
 module.exports.accessory = NutAccessory;
 module.exports.platform = NutPlatform;
 
-var Service, Characteristic;
+var Service, Characteristic, EnterpriseTypes;
 
 module.exports = function(homebridge) {
   Service = homebridge.hap.Service;
   Characteristic = homebridge.hap.Characteristic;
+  EnterpriseTypes = require('./types.js')(homebridge);
 
   homebridge.registerAccessory("homebridge-nut-accessory", "NutAccessory", NutAccessory);
   homebridge.registerPlatform("homebridge-nut", "Nut", NutPlatform);
