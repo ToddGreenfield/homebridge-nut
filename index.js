@@ -171,10 +171,16 @@ NutAccessory.prototype = {
 				if (!err) {
 					that.service.setCharacteristic(Characteristic.StatusFault,0);
 					that.serviceBatt.setCharacteristic(Characteristic.BatteryLevel,parseFloat(upsInfo["battery.charge"]));
+
+					that.service.setCharacteristic(EnterpriseTypes.InputVoltageAC, parseFloat(upsInfo["input.voltage"]));
+					that.service.setCharacteristic(EnterpriseTypes.OutputVoltageAC, parseFloat(upsInfo["output.voltage"]));
+					that.service.setCharacteristic(EnterpriseTypes.BatteryVoltageDC, parseFloat(upsInfo["battery.voltage"]));
+					that.service.setCharacteristic(Characteristic.CurrentTemperature, parseFloat(upsInfo["ups.temperature"]));
+						
 					if (parseInt(upsInfo["battery.charge"]) < parseInt(that.lowBattThreshold)) {
-						that.serviceBatt.setCharacteristic(Characteristic.StatusLowBattery,true);
+						that.serviceBatt.setCharacteristic(Characteristic.StatusLowBattery,1);
 					} else {
-						that.serviceBatt.setCharacteristic(Characteristic.StatusLowBattery,false);
+						that.serviceBatt.setCharacteristic(Characteristic.StatusLowBattery,0);
 					}
 					if (upsInfo["ups.status"] == "OL CHRG") { 
 						that.serviceBatt.setCharacteristic(Characteristic.ChargingState,1);
@@ -184,23 +190,19 @@ NutAccessory.prototype = {
 						that.serviceBatt.setCharacteristic(Characteristic.ChargingState,0);
 					}
 					if (parseInt(upsInfo["ups.load"]) > 0) {
-						that.service.setCharacteristic(Characteristic.StatusActive,true);
+						that.service.setCharacteristic(Characteristic.StatusActive,1);
 					} else {
-						that.service.setCharacteristic(Characteristic.StatusActive,false);
+						that.service.setCharacteristic(Characteristic.StatusActive,0);
 					}
-					if (upsInfo["input.voltage"] == "0.0") {
-						that.service.setCharacteristic(Characteristic.ContactSensorState,true);
+					if (upsInfo["ups.status"].startsWith("OB")) {
+						that.service.setCharacteristic(Characteristic.ContactSensorState,1);
 					} else {
-						that.service.setCharacteristic(Characteristic.ContactSensorState,false);
-						that.service.setCharacteristic(EnterpriseTypes.InputVoltageAC, (this.accVars["input.voltage"]));
-						that.service.setCharacteristic(EnterpriseTypes.OutputVoltageAC, (this.accVars["output.voltage"]));
-						that.service.setCharacteristic(EnterpriseTypes.BatteryVoltageDC, (this.accVars["battery.voltage"]));						
-						
+						that.service.setCharacteristic(Characteristic.ContactSensorState,0);						
 					}
-					if (parseInt(this.accVars["ups.temperature"]) > 0) {
-						that.service.setCharacteristic(Characteristic.CurrentTemperature, (parseInt(this.accVars["ups.temperature"])));
-					} else {
-					}
+//					if (parseInt(this.accVars["ups.temperature"]) > 0) {
+//						that.service.setCharacteristic(Characteristic.CurrentTemperature, (parseInt(this.accVars["ups.temperature"])));
+//					} else {
+//					}
 				} else {
 					that.log.error("Nut Error: %s", err);
 					that.service.setCharacteristic(Characteristic.StatusFault,1);
@@ -250,7 +252,7 @@ NutAccessory.prototype = {
 		this.serviceBatt.setCharacteristic(Characteristic.BatteryLevel, this.accVars["battery.charge"])
 			.setCharacteristic(Characteristic.Name, this.name)
 			.setCharacteristic(Characteristic.ChargingState, 0)
-			.setCharacteristic(Characteristic.StatusLowBattery, false);
+			.setCharacteristic(Characteristic.StatusLowBattery, 0);
 		services.push(this.serviceBatt);
         
 		return services;
