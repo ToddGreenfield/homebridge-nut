@@ -199,10 +199,6 @@ NutAccessory.prototype = {
 					} else {
 						that.service.setCharacteristic(Characteristic.ContactSensorState,0);						
 					}
-//					if (parseInt(this.accVars["ups.temperature"]) > 0) {
-//						that.service.setCharacteristic(Characteristic.CurrentTemperature, (parseInt(this.accVars["ups.temperature"])));
-//					} else {
-//					}
 				} else {
 					that.log.error("Nut Error: %s", err);
 					that.service.setCharacteristic(Characteristic.StatusFault,1);
