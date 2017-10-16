@@ -18,7 +18,7 @@ This plugin will create a ContactSensor element with BatteryService for each USB
 * BatteryLevel will show the BatteryCharge percent.
 * ChargingState will show Charging, Not Charging (Online and 100%), or Not Chargable (On Battery).
 * StatusLowBattery will be true if low_batt_threshold is breached. This can potentially notify you prior to your Nut shutting down its server(s).
-* Input/Output/Battery Voltage will be shown if available, otherwise will show 0 or default values.
+* Input/Output/Battery Voltage & BatteryLoad will be shown if available, otherwise may show 0 or default values.
 
 ## Configuration
 Example config.json:

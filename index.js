@@ -175,6 +175,7 @@ NutAccessory.prototype = {
 					that.service.setCharacteristic(EnterpriseTypes.InputVoltageAC, parseFloat(upsInfo["input.voltage"]));
 					that.service.setCharacteristic(EnterpriseTypes.OutputVoltageAC, parseFloat(upsInfo["output.voltage"]));
 					that.service.setCharacteristic(EnterpriseTypes.BatteryVoltageDC, parseFloat(upsInfo["battery.voltage"]));
+					that.service.setCharacteristic(EnterpriseTypes.UPSLoadPercent, parseInt(upsInfo["ups.load"]));
 					that.service.setCharacteristic(Characteristic.CurrentTemperature, parseFloat(upsInfo["ups.temperature"]));
 						
 					if (parseInt(upsInfo["battery.charge"]) < parseInt(that.lowBattThreshold)) {
@@ -225,18 +226,18 @@ NutAccessory.prototype = {
         var that = this;
         var services = []
 
-    this.service = new Service.ContactSensor(this.name);
-		this.service.getCharacteristic(Characteristic.ContactSensorState) // Has input voltage (power)
+		this.service = new Service.ContactSensor(this.name);
+		this.service.getCharacteristic(Characteristic.ContactSensorState) // Based on ups.status
 			.on('get', this.getCheck.bind(this));;
 		this.service.addCharacteristic(Characteristic.StatusActive); // Has load (being used)
 		this.service.addCharacteristic(Characteristic.StatusFault); // Used if unable to connect to Nut Server
 	  	this.service.addCharacteristic(Characteristic.CurrentTemperature);
-	    	this.service.addCharacteristic(EnterpriseTypes.InputVoltageAC);
-	    	this.service.addCharacteristic(EnterpriseTypes.OutputVoltageAC);
-	    	this.service.addCharacteristic(EnterpriseTypes.BatteryVoltageDC);
+	    this.service.addCharacteristic(EnterpriseTypes.InputVoltageAC);
+	    this.service.addCharacteristic(EnterpriseTypes.OutputVoltageAC);
+	    this.service.addCharacteristic(EnterpriseTypes.BatteryVoltageDC);
+		this.service.addCharacteristic(EnterpriseTypes.UPSLoadPercent);
 		services.push(this.service);
                 
-	    
 		var serviceInfo = new Service.AccessoryInformation();
   		serviceInfo.setCharacteristic(Characteristic.Manufacturer, this.accVars["device.mfr"] || 'no manufacturer') 		
 			.setCharacteristic(Characteristic.Name, this.name)
