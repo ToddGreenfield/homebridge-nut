@@ -245,6 +245,7 @@ NutAccessory.prototype = {
   		serviceInfo.setCharacteristic(Characteristic.Manufacturer, this.accVars["device.mfr"] || this.accVars["ups.vendorid"] || 'No Manufacturer')
 			.setCharacteristic(Characteristic.Name, this.name)
 			.setCharacteristic(Characteristic.SerialNumber, this.accVars["ups.serial"] || 'No Serial#')
+			.setCharacteristic(Characteristic.FirmwareRevision, this.accVars["ups.firmware"] || 'No Data')
 			.setCharacteristic(Characteristic.Model, this.accVars["device.model"] || this.accVars["ups.productid"] || 'No Model#');
     services.push(serviceInfo);
 
