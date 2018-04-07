@@ -31,6 +31,7 @@ Example config.json:
          "host": "localhost",
          "port": "3493",
          "search_time_delay": "1",
+         "acc_delay": "100",
          "low_batt_threshold": "40",
          "polling": "120"
      }
@@ -42,9 +43,10 @@ Example config.json:
 Field           		| Description
 ------------------------|------------
 **platform**   			| Required - Must always be "Nut".
-**name**        		| Required - Name for platform logging. 
+**name**        		| Required - Name for platform logging.
 **host** 			 	| Optional - Internal ip or hostname of Nut Client. Default is localhost.
 **port**				| Optional - Port which Nut Client is listening. Default is 3493.
 **search_time_delay**	| Optional - Delay on startup to list Nut devices. Defaults to 1 second.
+**acc_delay**	| Optional - Delay to prevent communication collisions for multiple UPS accessories. Defaults to 100 milliseconds.
 **low_batt_warning**	| Optional - Percent at which UPS will raise low battery. Default is 40.
 **polling**				| Optional - Poll interval. Default is 0 sec, which is OFF or no polling.
