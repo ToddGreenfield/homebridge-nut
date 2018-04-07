@@ -139,7 +139,6 @@ function NutAccessory(platform, accessory, accessoryFriendly, accessoryVars, acc
 			that.servicePolling();
 		}, this.platform.nutPolling);
 	};
-//	sleep(this.delay);
 }
 
 NutAccessory.prototype = {
@@ -249,10 +248,10 @@ NutAccessory.prototype = {
 			.on('get', this.getCheck.bind(this));;
 		this.service.addCharacteristic(Characteristic.StatusActive); // Has load (being used)
 		this.service.addCharacteristic(Characteristic.StatusFault); // Used if unable to connect to Nut Server
-	  	this.service.addCharacteristic(Characteristic.CurrentTemperature);
-	    this.service.addCharacteristic(EnterpriseTypes.InputVoltageAC);
-	    this.service.addCharacteristic(EnterpriseTypes.OutputVoltageAC);
-	    this.service.addCharacteristic(EnterpriseTypes.BatteryVoltageDC);
+		this.service.addCharacteristic(Characteristic.CurrentTemperature);
+		this.service.addCharacteristic(EnterpriseTypes.InputVoltageAC);
+		this.service.addCharacteristic(EnterpriseTypes.OutputVoltageAC);
+		this.service.addCharacteristic(EnterpriseTypes.BatteryVoltageDC);
 		this.service.addCharacteristic(EnterpriseTypes.UPSLoadPercent);
 		services.push(this.service);
 
@@ -262,7 +261,7 @@ NutAccessory.prototype = {
 			.setCharacteristic(Characteristic.SerialNumber, this.accVars["ups.serial"] || 'No Serial#')
 			.setCharacteristic(Characteristic.FirmwareRevision, this.accVars["ups.firmware"] || 'No Data')
 			.setCharacteristic(Characteristic.Model, this.accVars["device.model"].trim() || this.accVars["ups.productid"] || 'No Model#');
-    services.push(serviceInfo);
+		services.push(serviceInfo);
 
 		this.serviceBatt = new Service.BatteryService();
 		this.serviceBatt.setCharacteristic(Characteristic.BatteryLevel, this.accVars["battery.charge"])
